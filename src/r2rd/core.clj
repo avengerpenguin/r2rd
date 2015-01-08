@@ -1,13 +1,10 @@
 (ns r2rd.core
   (:use [compojure.core :only [defroutes POST]])
-  (:require [ring.adapter.jetty :as jetty]))
-(import 'java.io.ByteArrayOutputStream)
-(import 'java.io.StringReader)
-(import 'com.avengerpenguin.r2r.JenaModelSource)
-(import 'com.avengerpenguin.r2r.Mapper)
-(import 'com.avengerpenguin.r2r.NTriplesOutput)
-(import 'com.avengerpenguin.r2r.Repository)
-(import 'com.hp.hpl.jena.rdf.model.ModelFactory)
+  (:require [ring.adapter.jetty :as jetty])
+  (:import
+   (java.io ByteArrayOutputStream StringReader )
+   (com.avengerpenguin.r2r JenaModelSource Mapper NTriplesOutput Repository)
+   (com.hp.hpl.jena.rdf.model ModelFactory)))
 
 
 (defn convertModel
