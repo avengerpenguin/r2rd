@@ -1,6 +1,6 @@
 (ns r2rd.core
-    (:use [compojure.core :only [defroutes POST]])
-    (:require [ring.adapter.jetty :as jetty]))
+  (:use [compojure.core :only [defroutes POST]])
+  (:require [ring.adapter.jetty :as jetty]))
 
 (import 'java.io.ByteArrayOutputStream)
 (import 'com.avengerpenguin.r2r.NTriplesOutput)
@@ -13,11 +13,11 @@
   the output. Uses the r2r library to do the actual mapping."
   [model]
   (let [
-    source (new com.avengerpenguin.r2r.JenaModelSource model)
-    stream (new ByteArrayOutputStream)
-    out (new NTriplesOutput stream)
-    mappings (Repository/createFileOrUriRepository "mappings.ttl")
-    vocabulary "@prefix schema: <http://schema.org/> .
+        source (new com.avengerpenguin.r2r.JenaModelSource model)
+        stream (new ByteArrayOutputStream)
+        out (new NTriplesOutput stream)
+        mappings (Repository/createFileOrUriRepository "mappings.ttl")
+        vocabulary "@prefix schema: <http://schema.org/> .
 (
     schema:name,
     schema:description,
@@ -35,9 +35,9 @@
   do the actual mapping."
   [rdfstring]
   (let [
-    model (com.hp.hpl.jena.rdf.model.ModelFactory/createDefaultModel)
-    reader (new StringReader rdfstring)
-    ]
+        model (com.hp.hpl.jena.rdf.model.ModelFactory/createDefaultModel)
+        reader (new StringReader rdfstring)
+        ]
     (.read model reader "" "TURTLE")
     (convertModel model)))
 
@@ -49,9 +49,9 @@
 
 
 (defn -main
-    "App entrypoint, which launches Jetty and bootstraps the web app.
-    Use the PORT environment variable to force a bind to a port other
-    than 5000."
-    []
-    (let [port (Integer/parseInt (get (System/getenv) "PORT" "5000"))]
+  "App entrypoint, which launches Jetty and bootstraps the web app.
+  Use the PORT environment variable to force a bind to a port other
+  than 5000."
+  []
+  (let [port (Integer/parseInt (get (System/getenv) "PORT" "5000"))]
     (jetty/run-jetty convertHttp {:port port})))
