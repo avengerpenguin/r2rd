@@ -1,11 +1,14 @@
 (ns r2rd.core
   (:use [compojure.core :only [defroutes POST]])
   (:require [ring.adapter.jetty :as jetty]))
-
 (import 'java.io.ByteArrayOutputStream)
-(import 'com.avengerpenguin.r2r.NTriplesOutput)
 (import 'java.io.StringReader)
+(import 'com.avengerpenguin.r2r.JenaModelSource)
+(import 'com.avengerpenguin.r2r.Mapper)
+(import 'com.avengerpenguin.r2r.NTriplesOutput)
 (import 'com.avengerpenguin.r2r.Repository)
+(import 'com.hp.hpl.jena.rdf.model.ModelFactory)
+
 
 (defn convertModel
   "Takes a Jena Model and returns the data mapped onto the Schema.org
@@ -13,7 +16,7 @@
   the output. Uses the r2r library to do the actual mapping."
   [model]
   (let [
-        source (new com.avengerpenguin.r2r.JenaModelSource model)
+        source (new JenaModelSource model)
         stream (new ByteArrayOutputStream)
         out (new NTriplesOutput stream)
         mappings (Repository/createFileOrUriRepository "mappings.ttl")
@@ -25,8 +28,8 @@
     schema:image,
     schema:actor
 )" ]
-    (com.avengerpenguin.r2r.Mapper/transform source out mappings vocabulary)
-    (new java.lang.String (.toByteArray stream))))
+    (Mapper/transform source out mappings vocabulary)
+    (new String (.toByteArray stream))))
 
 
 (defn convertString
@@ -35,7 +38,7 @@
   do the actual mapping."
   [rdfstring]
   (let [
-        model (com.hp.hpl.jena.rdf.model.ModelFactory/createDefaultModel)
+        model (ModelFactory/createDefaultModel)
         reader (new StringReader rdfstring)
         ]
     (.read model reader "" "TURTLE")
