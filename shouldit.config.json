@@ -1,0 +1,4 @@
+{
+    "specs": "specs/*.md",
+    "results": "tests/results.xml"
+}

@@ -1,0 +1,2 @@
+web: lein trampoline run
+test: tests/.venv/bin/py.test -vv --junitxml=tests/results.xml tests/*.py
