@@ -18,7 +18,7 @@
 
 (require '[clj-http.client :as client])
 
-(deftest should_work
-  (def resp (client/get "http://localhost:1234"))
+(deftest should_return_an_http_200_response_code
+  (def resp (client/get "http://localhost:1234" {:throw-exceptions false}))
   (testing "Expecting 200 on home page."
     (is (= (:status resp) 200))))

@@ -1,6 +1,6 @@
 # Homepage
 
-    + it should return an HTTP 200 response code
+    + it should return an http 200 response code
     + it should have the title "r2rd"
 
 ## Mapping Form

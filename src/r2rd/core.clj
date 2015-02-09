@@ -1,5 +1,7 @@
 (ns r2rd.core
-  (:use [compojure.core :only [defroutes POST]])
+  (:use
+   [compojure.core :only [defroutes POST GET]]
+   [clostache.parser :only [render-resource]])
   (:require [ring.adapter.jetty :as jetty])
   (:import
    (java.io ByteArrayOutputStream StringReader )
@@ -42,9 +44,14 @@
     (convertModel model)))
 
 
+(defn homePage []
+  (render-resource "templates/home.mustache" {}))
+
+
 (defroutes convertHttp
   "POST Turtle data here to get back equivalent N3 data in the Schema.org
   vocabulary."
+  (GET "/" [] (homePage))
   (POST "/" {body :body} (convertString (slurp body))))
 
 
