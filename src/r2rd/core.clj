@@ -1,7 +1,8 @@
 (ns r2rd.core
   (:use
    [compojure.core :only [defroutes POST GET]]
-   [clostache.parser :only [render-resource]])
+   [clostache.parser :only [render-resource]]
+   [r2rd.mappings :only [mappings]])
   (:require [ring.adapter.jetty :as jetty])
   (:import
    (java.io ByteArrayOutputStream StringReader )
@@ -15,10 +16,12 @@
   the output. Uses the r2r library to do the actual mapping."
   [model]
   (let [
+        mappingsModel (ModelFactory/createDefaultModel)
+        mappingsReader (new StringReader mappings)
         source (new JenaModelSource model)
         stream (new ByteArrayOutputStream)
         out (new NTriplesOutput stream)
-        mappings (Repository/createFileOrUriRepository "mappings.ttl")
+        mappingsRepo (Repository/createJenaModelRepository mappingsModel)
         vocabulary "@prefix schema: <http://schema.org/> .
 (
     schema:name,
@@ -27,7 +30,8 @@
     schema:image,
     schema:actor
 )" ]
-    (Mapper/transform source out mappings vocabulary)
+    (.read mappingsModel mappingsReader "" "TURTLE")
+    (Mapper/transform source out mappingsRepo vocabulary)
     (new String (.toByteArray stream))))
 
 
