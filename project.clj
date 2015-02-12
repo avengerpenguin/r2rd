@@ -1,4 +1,5 @@
 (defproject r2rd "0.1.0-SNAPSHOT"
+  :min-lein-version "2.0.0"
   :description "Web app wrapping r2r library."
   :url "http://example.com/FIXME"
   :license {:name "GPL v3"
