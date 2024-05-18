@@ -28,4 +28,3 @@
    (make-mapping "thumbnailMapping"
                  "?SUBJ dbpedia-owl:thumbnail ?o"
                  "?SUBJ schema:thumbnailUrl ?o")))
-
